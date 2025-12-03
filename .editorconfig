@@ -1,0 +1,155 @@
+# top-most EditorConfig file
+root = true
+
+##############################
+# Global Formatting
+##############################
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+
+##############################
+# C# Formatting Options
+##############################
+[*.cs]
+
+csharp_new_line_before_open_brace = all
+csharp_indent_braces = false
+
+csharp_space_between_parentheses = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_after_cast = false
+
+csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = true
+
+
+##############################################
+# Naming Styles
+##############################################
+
+# Style: PascalCase
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Style: camelCase
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# Style: _camelCase (for private fields)
+dotnet_naming_style.underscore_camel_case.required_prefix = _
+dotnet_naming_style.underscore_camel_case.capitalization = camel_case
+
+# Style: UPPER_CASE (for constants)
+dotnet_naming_style.upper_case.capitalization = all_upper
+
+# Style: Interface prefix "I"
+dotnet_naming_style.iface_prefix.required_prefix = I
+dotnet_naming_style.iface_prefix.capitalization = pascal_case
+
+
+##############################################
+# Naming Symbols (what to apply rules to)
+##############################################
+
+# Private readonly fields
+dotnet_naming_symbols.private_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.private_readonly_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_readonly_fields.required_modifiers = readonly
+
+# Private non-readonly fields (optional but recommended)
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+# Parameters
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+
+# Locals
+dotnet_naming_symbols.locals.applicable_kinds = local
+
+# Constants (const fields)
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+
+# Enums
+dotnet_naming_symbols.enums.applicable_kinds = enum
+
+# Enum members
+dotnet_naming_symbols.enum_members.applicable_kinds = enum_member
+
+# Interfaces
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+
+# DTO classes
+dotnet_naming_symbols.dtos.applicable_kinds = class
+dotnet_naming_symbols.dtos.applicable_name = .*Dto
+
+# Entity classes
+dotnet_naming_symbols.entities.applicable_kinds = class
+dotnet_naming_symbols.entities.applicable_name = .*Entity|.*User|.*Order|.*Product
+
+# General classes (services, repositories, handlers)
+dotnet_naming_symbols.classes.applicable_kinds = class
+
+
+##############################################
+# Naming Rules
+##############################################
+
+# Private readonly fields -> _camelCase
+dotnet_naming_rule.private_readonly_fields_use_underscore.symbols = private_readonly_fields
+dotnet_naming_rule.private_readonly_fields_use_underscore.style = underscore_camel_case
+dotnet_naming_rule.private_readonly_fields_use_underscore.severity = warning
+
+# Private fields (non-readonly) -> _camelCase
+dotnet_naming_rule.private_fields_use_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_use_underscore.style = underscore_camel_case
+dotnet_naming_rule.private_fields_use_underscore.severity = warning
+
+# Parameters -> camelCase
+dotnet_naming_rule.parameters_camel_case.symbols = parameters
+dotnet_naming_rule.parameters_camel_case.style = camel_case
+dotnet_naming_rule.parameters_camel_case.severity = warning
+
+# Local variables -> camelCase
+dotnet_naming_rule.locals_camel_case.symbols = locals
+dotnet_naming_rule.locals_camel_case.style = camel_case
+dotnet_naming_rule.locals_camel_case.severity = warning
+
+# Constants -> UPPER_CASE
+dotnet_naming_rule.constants_uppercase.symbols = constants
+dotnet_naming_rule.constants_uppercase.style = upper_case
+dotnet_naming_rule.constants_uppercase.severity = warning
+
+# Enums -> PascalCase
+dotnet_naming_rule.enums_pascal_case.symbols = enums
+dotnet_naming_rule.enums_pascal_case.style = pascal_case
+dotnet_naming_rule.enums_pascal_case.severity = warning
+
+# Enum members -> PascalCase (no ALL_CAPS)
+dotnet_naming_rule.enum_members_pascal_case.symbols = enum_members
+dotnet_naming_rule.enum_members_pascal_case.style = pascal_case
+dotnet_naming_rule.enum_members_pascal_case.severity = warning
+
+# Interfaces -> I + PascalCase
+dotnet_naming_rule.interfaces_prefixed.symbols = interfaces
+dotnet_naming_rule.interfaces_prefixed.style = iface_prefix
+dotnet_naming_rule.interfaces_prefixed.severity = warning
+
+# DTOs -> PascalCase
+dotnet_naming_rule.dtos_pascal_case.symbols = dtos
+dotnet_naming_rule.dtos_pascal_case.style = pascal_case
+dotnet_naming_rule.dtos_pascal_case.severity = suggestion
+
+# Entities -> PascalCase
+dotnet_naming_rule.entities_pascal_case.symbols = entities
+dotnet_naming_rule.entities_pascal_case.style = pascal_case
+dotnet_naming_rule.entities_pascal_case.severity = suggestion
+
+# All classes -> PascalCase
+dotnet_naming_rule.classes_pascal_case.symbols = classes
+dotnet_naming_rule.classes_pascal_case.style = pascal_case
+dotnet_naming_rule.classes_pascal_case.severity = warning
