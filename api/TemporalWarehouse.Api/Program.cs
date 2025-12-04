@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TemporalWarehouse.Api.Application.Interfaces;
 using TemporalWarehouse.Api.Application.Services;
 using TemporalWarehouse.Api.Infrastructure.Contexts;
@@ -19,8 +20,23 @@ builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStockService, StockService>();
 builder.Services.AddTransient<IHistoryService, HistoryService>();
 
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "The Temporal Warehouse API" });
+});
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("WarehouseCorsPolicy", builder =>
+        {
+            builder.WithOrigins("http://localhost:3000", "https://myclientapp.com") // Specify allowed origins
+                   .AllowAnyMethod()
+                   .WithHeaders("Content-Type", "Authorization")
+                   .AllowCredentials();
+        });
+    });
+
 
 var app = builder.Build();
 
@@ -31,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseCors("WarehouseCorsPolicy");
 app.UseHttpsRedirection();
 
 

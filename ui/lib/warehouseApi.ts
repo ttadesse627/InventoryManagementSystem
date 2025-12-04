@@ -33,7 +33,7 @@ export const warehouseApi = {
   },
 
   async createProduct(payload: ProductCreateDto): Promise<Product> {
-    const res = await api.post("/products", payload);
+    const res = await api.post("/products/create", payload);
     return res.data;
   },
 

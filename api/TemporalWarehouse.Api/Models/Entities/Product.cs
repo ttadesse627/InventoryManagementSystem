@@ -13,7 +13,6 @@ public class Product
 
     public decimal Price { get; set; }
 
-    // Current quantity always reflects latest real-time value.
     public int CurrentQuantity { get; set; }
 
     // Needed for concurrency conflict resolution
