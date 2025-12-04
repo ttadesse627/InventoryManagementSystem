@@ -7,7 +7,7 @@ namespace TemporalWarehouse.Api.Application.Interfaces;
 
 public interface IProductService
 {
-    public Task<Product> CreateAsync(string name, string sku, decimal price);
+    public Task<Product> CreateAsync(string name, string sku, decimal price, int initialQuantity);
 
     public Task<List<Product>> GetAllAsync();
 

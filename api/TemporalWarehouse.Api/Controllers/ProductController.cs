@@ -7,18 +7,19 @@ using TemporalWarehouse.Api.Contracts.ResponseDtos;
 namespace TemporalWarehouse.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/products")]
 public class ProductsController(IProductService productService) : ControllerBase
 {
     private readonly IProductService _productService = productService;
 
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<ActionResult<ProductResponse>> Create([FromBody] CreateProductRequest request)
     {
         var product = await _productService.CreateAsync(
             request.Name,
             request.SKU,
-            request.Price);
+            request.Price,
+            request.InitialQuantity);
 
         var response = new ProductResponse
         {

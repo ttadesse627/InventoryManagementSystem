@@ -8,7 +8,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 {
     private readonly IProductRepository _productRepository = productRepository;
 
-    public async Task<Product> CreateAsync(string name, string sku, decimal price)
+    public async Task<Product> CreateAsync(string name, string sku, decimal price, int initialQuantity)
     {
         var product = new Product
         {
@@ -16,7 +16,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             Name = name,
             SKU = sku,
             Price = price,
-            CurrentQuantity = 0
+            CurrentQuantity = initialQuantity
         };
 
         await _productRepository.AddAsync(product);
