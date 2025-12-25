@@ -22,7 +22,9 @@ jobs:
         working-directory: ./ui
 
   deploy-preview:
+    name: Deploy to Vercel Preview
     runs-on: ubuntu-latest
+    needs: [build]
     steps:
       - uses: actions/checkout@v2
 
@@ -34,16 +36,16 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./ui
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./ui
   
   deploy-production:
     runs-on: ubuntu-latest
-    needs: ["build"]
+    needs: [deploy-preview]
     steps:
       - uses: actions/checkout@v2
 
