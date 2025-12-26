@@ -20,6 +20,7 @@ import {
   Minus,
   Loader2
 } from "lucide-react";
+import { handleError } from "@/lib/errorHandler";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -32,16 +33,18 @@ export default function ProductList() {
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const loadProducts = async () => {
-    setLoading(true);
-    try {
-      const data = await warehouseApi.getProducts();
-      setProducts(data);
-    } catch {
-      toast.error("Failed to load products.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  
+  try {
+    const data = await warehouseApi.getProducts();
+    setProducts(data);
+    
+  } catch (err: any) {
+    handleError(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     loadProducts();
