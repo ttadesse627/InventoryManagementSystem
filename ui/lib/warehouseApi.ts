@@ -61,3 +61,4 @@ export const warehouseApi = {
     return res.data;
   },
 };
+
