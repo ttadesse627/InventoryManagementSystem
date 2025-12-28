@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-string? connectionString = builder.Configuration.GetConnectionString("NpgsqlConnectionRuntime");
+string? connectionString = builder.Configuration.GetConnectionString("NpgsqlRemoteConnection");
 builder.Services.AddDbContext<WarehouseDbContext>(options =>
 {
     options.UseNpgsql(connectionString, opt =>
