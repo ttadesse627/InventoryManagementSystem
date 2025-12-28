@@ -7,26 +7,26 @@ using TemporalWarehouse.Api.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(8000);
-});
-
 builder.Services.AddControllers();
 
-string? connectionString = builder.Configuration.GetConnectionString("NpgsqlConnectionRemote");
+string? connectionString = builder.Configuration.GetConnectionString("NpgsqlConnectionRuntime");
 builder.Services.AddDbContext<WarehouseDbContext>(options =>
 {
-    options.UseNpgsql(connectionString);
+    options.UseNpgsql(connectionString, opt =>
+    {
+        opt.CommandTimeout(60);
+        opt.EnableRetryOnFailure();
+    });
+
 }, ServiceLifetime.Scoped);
 
+#region Repositories and Services Registration
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IStockRepository, StockRepository>();
-
 builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddScoped<IStockService, StockService>();
-builder.Services.AddScoped<IHistoryService, HistoryService>();
-
+builder.Services.AddTransient<IStockService, StockService>();
+builder.Services.AddTransient<IHistoryService, HistoryService>();
+#endregion
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
@@ -37,25 +37,21 @@ builder.Services.AddCors(options =>
     {
         options.AddPolicy("WarehouseCorsPolicy", builder =>
         {
-            builder.WithOrigins("http://localhost:3000") // Specify allowed origins
+            builder.WithOrigins("http://localhost:3000", "https://temporal-warehouse.vercel.app") // Specify allowed origins
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials();
         });
     });
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("WarehouseCorsPolicy");
 app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+

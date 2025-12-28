@@ -8,9 +8,9 @@ public class HistoryService(IStockRepository stockRepository) : IHistoryService
 {
     private readonly IStockRepository _stockRepository = stockRepository;
 
-    public Task<List<StockTransaction>> GetHistoryAsync(Guid productId)
+    public async Task<List<StockTransaction>> GetHistoryAsync(Guid productId)
     {
-        return _stockRepository.GetByProductAsync(productId);
+        return await _stockRepository.GetByProductAsync(productId);
     }
 
     public async Task<int> GetStockAtTimeAsync(Guid productId, DateTime timestamp)

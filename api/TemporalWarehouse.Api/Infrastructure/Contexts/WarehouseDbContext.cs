@@ -11,7 +11,7 @@ public class WarehouseDbContext(DbContextOptions<WarehouseDbContext> options) : 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("store_schema");
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WarehouseDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
