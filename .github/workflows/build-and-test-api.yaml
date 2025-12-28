@@ -31,8 +31,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-api]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          
       - name: Run the API tests
         run: dotnet test --configuration Release --no-build --verbosity normal
+        working-directory: api/TemporalWarehouse.Test
 
   deploy-api:
     runs-on: ubuntu-latest

@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
     {
         options.AddPolicy("WarehouseCorsPolicy", builder =>
         {
-            builder.WithOrigins("http://localhost:3000", "https://temporal-warehouse.vercel.app") // Specify allowed origins
+            builder.WithOrigins("http://localhost:3000", "https://temporal-warehouse.vercel.app")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials();
