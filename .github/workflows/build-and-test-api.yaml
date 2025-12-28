@@ -27,18 +27,6 @@ jobs:
       - name: Build the API project
         run: dotnet build --configuration Release --no-restore
 
-  test-api:
-    runs-on: ubuntu-latest
-    needs: [build-api]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-          
       - name: Run the API tests
         run: dotnet test --configuration Release --no-build --verbosity normal
         working-directory: api/TemporalWarehouse.Test
@@ -46,7 +34,7 @@ jobs:
   deploy-api:
     runs-on: ubuntu-latest
     environment: Production
-    needs: [build-api, test-api]
+    needs: [build-api]
     steps:
       - name: Install Fly
         uses: superfly/flyctl-actions/setup-flyctl@master
