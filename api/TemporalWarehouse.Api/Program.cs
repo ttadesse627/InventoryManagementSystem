@@ -4,10 +4,20 @@ using TemporalWarehouse.Api.Application.Interfaces;
 using TemporalWarehouse.Api.Application.Services;
 using TemporalWarehouse.Api.Infrastructure.Contexts;
 using TemporalWarehouse.Api.Infrastructure.Repositories;
+using TemporalWarehouse.Api.Models.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddOptions<AppMetadata>()
+                .Bind(builder.Configuration.GetSection("AppMetadata"))
+                .ValidateDataAnnotations()
+                .Validate(x =>
+                    !string.IsNullOrWhiteSpace(x.Api.Platform) &&
+                    !string.IsNullOrWhiteSpace(x.Database.Platform),
+                    "Hosting Information is not fully configured.")
+                .ValidateOnStart();
 
 string? connectionString = builder.Configuration.GetConnectionString("NpgsqlRemoteConnection");
 builder.Services.AddDbContext<WarehouseDbContext>(options =>
