@@ -1,47 +1,38 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using TemporalWarehouse.Api.Application.Interfaces;
-using TemporalWarehouse.Api.Application.Services;
-using TemporalWarehouse.Api.Infrastructure.Contexts;
-using TemporalWarehouse.Api.Infrastructure.Repositories;
-using TemporalWarehouse.Api.Models.Utilities;
+using TemporalWarehouse.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddOptions<AppMetadata>()
-                .Bind(builder.Configuration.GetSection("AppMetadata"))
-                .ValidateDataAnnotations()
-                .Validate(x =>
-                    !string.IsNullOrWhiteSpace(x.Api.Platform) &&
-                    !string.IsNullOrWhiteSpace(x.Database.Platform),
-                    "Hosting Information is not fully configured.")
-                .ValidateOnStart();
-
-string? connectionString = builder.Configuration.GetConnectionString("NpgsqlRemoteConnection");
-builder.Services.AddDbContext<WarehouseDbContext>(options =>
-{
-    options.UseNpgsql(connectionString, opt =>
-    {
-        opt.CommandTimeout(60);
-        opt.EnableRetryOnFailure();
-    });
-
-}, ServiceLifetime.Scoped);
-
-#region Repositories and Services Registration
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<IStockRepository, StockRepository>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<IStockService, StockService>();
-builder.Services.AddTransient<IHistoryService, HistoryService>();
-#endregion
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "The Temporal Warehouse API" });
+
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 builder.Services.AddCors(options =>
     {
@@ -54,7 +45,11 @@ builder.Services.AddCors(options =>
         });
     });
 
+builder.Services.AddServicesRegistrations(builder.Configuration);
+
 var app = builder.Build();
+
+app.MapGet("/health", () => Results.Ok("The server is running!"));
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -64,5 +59,3 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
-
-// Just added for testing

@@ -18,6 +18,7 @@ public class StockRepository(WarehouseDbContext context) : IStockRepository
     public Task<List<StockTransaction>> GetByProductAsync(Guid productId)
     {
         return _context.StockTransactions
+            .AsNoTracking()
             .Where(s => s.ProductId == productId)
             .OrderBy(s => s.OccurredAt)
             .ToListAsync();
@@ -27,6 +28,7 @@ public class StockRepository(WarehouseDbContext context) : IStockRepository
     {
         var utcTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Local).ToUniversalTime();
         return await _context.StockTransactions
+        .AsNoTracking()
         .Where(s => s.ProductId == productId && s.OccurredAt <= utcTime)
         .OrderByDescending(s => s.OccurredAt)
         .FirstOrDefaultAsync();

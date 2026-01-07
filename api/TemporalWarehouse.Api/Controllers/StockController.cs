@@ -1,5 +1,6 @@
 
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemporalWarehouse.Api.Application.Interfaces;
 using TemporalWarehouse.Api.Contracts.RequestDtos;
@@ -12,6 +13,7 @@ public class StockController(IStockService stockService) : ControllerBase
 {
     private readonly IStockService _stockService = stockService;
 
+    [Authorize(Roles = "Admin, Seller")]
     [HttpPost("add-stock")]
     public async Task<IActionResult> AddStock(Guid productId, [FromBody] AddStockRequest request)
     {
@@ -30,6 +32,7 @@ public class StockController(IStockService stockService) : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin, Seller")]
     [HttpPost("remove-stock")]
     public async Task<IActionResult> RemoveStock(Guid productId, [FromBody] RemoveStockRequest request)
     {

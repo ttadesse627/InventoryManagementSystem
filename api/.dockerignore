@@ -1,0 +1,8 @@
+TemporalWarehouse.Api/bin/
+TemporalWarehouse.Api/obj/
+TemporalWarehouse.Api/appsettings.Development.json
+TemporalWarehouse.Api/Migrations/
+TemporalWarehouse.Api/TemporalWarehouse.Api.http
+TemporalWarehouse.Test/obj/
+TemporalWarehouse.Test/bin/
+.editorConfig

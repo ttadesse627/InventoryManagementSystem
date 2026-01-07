@@ -8,16 +8,16 @@ COPY TemporalWarehouse.slnx .
 COPY Directory.Packages.props .
 
 # Copy API project files
-COPY api/TemporalWarehouse.Api/TemporalWarehouse.Api.csproj ./api/TemporalWarehouse.Api/
+COPY TemporalWarehouse.Api/TemporalWarehouse.Api.csproj ./TemporalWarehouse.Api/
 
 # Restore dependencies
-RUN dotnet restore "./api/TemporalWarehouse.Api/TemporalWarehouse.Api.csproj"
+RUN dotnet restore "./TemporalWarehouse.Api/TemporalWarehouse.Api.csproj"
 
 # Copy the rest of the code
 COPY . .
 
 # Publish
-WORKDIR /src/api/TemporalWarehouse.Api
+WORKDIR /src/TemporalWarehouse.Api
 RUN dotnet publish -c Release -o /app
 
 # Stage 2: Runtime

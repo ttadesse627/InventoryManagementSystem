@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemporalWarehouse.Api.Application.Interfaces;
 using TemporalWarehouse.Api.Contracts.RequestDtos;
@@ -12,6 +13,7 @@ public class ProductsController(IProductService productService) : ControllerBase
 {
     private readonly IProductService _productService = productService;
 
+    [Authorize(Roles = "Admin, Seller")]
     [HttpPost("create")]
     public async Task<ActionResult<ProductResponse>> Create([FromBody] CreateProductRequest request)
     {
@@ -66,6 +68,7 @@ public class ProductsController(IProductService productService) : ControllerBase
         };
     }
 
+    [Authorize(Roles = "Admin, Seller")]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductRequest request)
     {
@@ -80,6 +83,7 @@ public class ProductsController(IProductService productService) : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin, Seller")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
