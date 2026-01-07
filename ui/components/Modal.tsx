@@ -53,7 +53,7 @@ export default function Modal({
             </button>
           </div>
 
-          {/* Content */}
+          {/* Contents */}
           <div className="px-6 pb-6 pt-0">
             {children}
           </div>
