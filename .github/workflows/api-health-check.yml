@@ -2,8 +2,8 @@ name: Keep Render API Awake
 
 on:
   schedule:
-    # Every 14 minutes (safe before Render sleeps)
-    - cron: "*/14 * * * *"
+    - cron: "30-59/14 4 * * 1-6"
+    - cron: "*/14 5-17 * * 1-6"
   workflow_dispatch:  # allows manual run
 
 jobs:
