@@ -187,7 +187,7 @@ namespace TemporalWarehouse.Api.Infrastructure.Persistence
                 }
             }
 
-            var result2 = await _userManager.AddToRoleAsync(user, "Customer");
+            var result2 = await _userManager.AddToRoleAsync(user, "User");
             if (!result2.Succeeded)
             {
                 return false;
