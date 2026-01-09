@@ -1,0 +1,15 @@
+name: Keep Render API Awake
+
+on:
+  schedule:
+    # Every 14 minutes (safe before Render sleeps)
+    - cron: "*/15 * * * *"
+  workflow_dispatch:  # allows manual run
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: |
+          curl -s https://your-api.onrender.com/health > /dev/null
