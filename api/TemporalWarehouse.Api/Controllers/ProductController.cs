@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemporalWarehouse.Api.Application.Interfaces;
@@ -69,7 +68,7 @@ public class ProductsController(IProductService productService) : ControllerBase
     }
 
     [Authorize(Roles = "Admin, Seller")]
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:guid}/update")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductRequest request)
     {
         try
@@ -84,7 +83,7 @@ public class ProductsController(IProductService productService) : ControllerBase
     }
 
     [Authorize(Roles = "Admin, Seller")]
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:guid}/delete")]
     public async Task<IActionResult> Delete(Guid id)
     {
         try

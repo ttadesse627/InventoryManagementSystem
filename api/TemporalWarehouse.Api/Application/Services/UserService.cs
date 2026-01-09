@@ -40,7 +40,7 @@ public class UserService(
 
         if (rolesWereEmpty)
         {
-            registerRequest.Roles.Add("Customer");
+            registerRequest.Roles.Add("User");
         }
 
         var createResult = await _identityService.CreateUserAsync(

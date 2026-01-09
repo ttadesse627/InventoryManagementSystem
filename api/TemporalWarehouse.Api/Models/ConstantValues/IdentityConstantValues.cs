@@ -9,9 +9,8 @@ public record IdentityConstantValues
     public sealed record SystemRoles
     {
         public const string ADMIN = "Admin";
-        public const string SELLER = "Seller";
-        public const string CUSTOMER = "Customer";
+        public const string USER = "User";
 
-        public static readonly IReadOnlyList<string> ALL = [ADMIN, SELLER, CUSTOMER];
+        public static readonly IReadOnlyList<string> ALL = [ADMIN, USER];
     }
 }
