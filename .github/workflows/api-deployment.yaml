@@ -21,9 +21,6 @@ jobs:
         working-directory: api
 
     steps:
-      - name: Change working directory
-        run: cd api
-        
       - name: Checkout repository
         uses: actions/checkout@v4
 
