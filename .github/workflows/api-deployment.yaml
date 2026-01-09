@@ -1,4 +1,4 @@
-name: Build and Test the API
+name: Build, Test and Deploy the API
 on:
   push:
     branches:
@@ -10,8 +10,16 @@ on:
       - 'api/**'
 
 jobs:
-  build-api:
+    
+  deploy-api:
+    name: Deploy the API to Render.com
     runs-on: ubuntu-latest
+    environment: Production
+
+    defaults:
+      run:
+        working-directory: api
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,17 +37,9 @@ jobs:
 
       - name: Run the API tests
         run: dotnet test --configuration Release --no-build --verbosity normal
-        working-directory: api/TemporalWarehouse.Test
 
-  deploy-api:
-    name: Deploy the API to Fly.io
-    runs-on: ubuntu-latest
-    environment: Production
-    needs: [build-api]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_TOKEN }}
-
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
