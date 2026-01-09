@@ -12,4 +12,5 @@ jobs:
     steps:
       - name: Ping health endpoint
         run: |
-          curl -s https://temporalwarehouse.onrender.com/health > /dev/null
+          RESPONSE=$(curl -s -w "\nStatus: %{http_code}\n" https://temporalwarehouse.onrender.com/health)
+          echo "$RESPONSE"
