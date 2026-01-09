@@ -128,7 +128,6 @@ public static class DependencyContainer
             });
 
         services.AddAuthorization();
-
         services.AddHttpContextAccessor();
 
         return services;
