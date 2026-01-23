@@ -14,7 +14,7 @@ public class HistoryController(IHistoryService historyService, IProductService p
     private readonly IProductService _productService = productService;
 
     [HttpGet]
-    public async Task<ActionResult<List<StockTransactionResponse>>> GetHistory()
+    public async Task<ActionResult<List<StockTransactionResponse>>> GetHistory(Guid id)
     {
         var product = await _productService.GetByIdAsync(id);
         if (product == null)
