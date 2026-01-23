@@ -14,13 +14,13 @@ public class HistoryController(IHistoryService historyService, IProductService p
     private readonly IProductService _productService = productService;
 
     [HttpGet]
-    public async Task<ActionResult<List<StockTransactionResponse>>> GetHistory(Guid productId)
+    public async Task<ActionResult<List<StockTransactionResponse>>> GetHistory()
     {
-        var product = await _productService.GetByIdAsync(productId);
+        var product = await _productService.GetByIdAsync(id);
         if (product == null)
             return NotFound("Product not found.");
 
-        var history = await _historyService.GetHistoryAsync(productId);
+        var history = await _historyService.GetHistoryAsync(id);
 
         return history.Select(t => new StockTransactionResponse
         {
